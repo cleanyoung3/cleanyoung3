@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  NOTICE
+  PARTNERSHIP
+  QUOTE
+}
+
+model AdminUser {
+  id              String   @id @default(cuid())
+  username        String   @unique
+  passwordHash    String
+  displayName     String
+  isMain          Boolean  @default(false)
+  canManageSite   Boolean  @default(false)
+  canManageWork   Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}
+
+model Notice {
+  id         String   @id @default(cuid())
+  title      String
+  content    String
+  isPinned   Boolean  @default(false)
+  authorName String   @default("운영자")
+  viewCount  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model FaqItem {
+  id         String   @id @default(cuid())
+  question   String
+  answer     String
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model PartnershipRequest {
+  id          String   @id @default(cuid())
+  companyName String
+  contactName String
+  phone       String
+  email       String
+  serviceType String
+  message     String
+  status      String   @default("접수")
+  createdAt   DateTime @default(now())
+}
+
+model QuoteRequest {
+  id            String   @id @default(cuid())
+  services      String
+  region        String
+  regionDetail  String?
+  detailAnswers String
+  extraServices String?
+  preferredDate String
+  name          String
+  phone         String
+  status        String   @default("접수")
+  createdAt     DateTime @default(now())
+}
+
+model SiteStat {
+  key       String   @id
+  label     String
+  value     Int
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model HeroSlide {
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  presetKey   String?
+  headline    String
+  subCopy     String
+  bodyText    String
+  imageUrl    String?
+  statKey     String?
+  updatedAt   DateTime @updatedAt
+}
+
+model PageBanner {
+  pageKey   String   @id
+  eyebrow   String
+  lead      String?
+  titleLine1 String
+  titleLine2 String?
+  mediaType String   @default("none")
+  mediaUrl  String?
+  updatedAt DateTime @updatedAt
+}
+
+model ServicePage {
+  slug          String   @id
+  order         Int      @default(0)
+  badge         String
+  headline      String
+  subCopy       String
+  bodyText      String
+  statKey       String
+  heroImage     String
+  worries       String
+  processTitle  String
+  processSteps  String
+  featuresTitle String
+  features      String
+  updatedAt     DateTime @updatedAt
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  order      Int      @default(0)
+  name       String
+  tag        String
+  reviewDate String
+  rating     Int      @default(5)
+  text       String
+  photoUrl   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

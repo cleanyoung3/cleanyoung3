@@ -1,69 +1,68 @@
 import Image from "next/image";
+import { HeroCarousel } from "@/components/home/HeroCarousel";
+import { StatsBanner } from "@/components/home/StatsBanner";
+import { TestimonialCarousel } from "@/components/home/TestimonialCarousel";
+import { getHeroSlides, getSiteSettings, getSiteStats } from "@/lib/site-data";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
+export default async function HomePage() {
+  const [slides, stats, settings, testimonials] = await Promise.all([
+    getHeroSlides(),
+    getSiteStats(),
+    getSiteSettings(),
+    prisma.testimonial.findMany({ orderBy: { order: "asc" } }),
+  ]);
+
+  const statMap = {
+    aircon: stats.aircon,
+    sofa_mattress: stats.sofaMattress,
+    movein: stats.movein,
+    consult: stats.consult,
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <HeroCarousel slides={slides} stats={statMap} phone={settings.phone} />
+
+      <StatsBanner
+        stats={[
+          { label: "에어컨 분해 청소 누적 시공수", value: stats.aircon, suffix: "회" },
+          { label: "소파・매트리스 케어 누적 시공수", value: stats.sofaMattress, suffix: "회" },
+          { label: "입주・이사 청소 누적 시공수", value: stats.movein, suffix: "회" },
+          { label: "상담 및 견적문의 누적 상담수", value: stats.consult, suffix: "건" },
+        ]}
+      />
+
+      <section className="flex min-h-[1000px] flex-col justify-center bg-slate-50 py-14 md:py-20">
+        <div className="mx-auto mb-14 max-w-6xl px-4 md:px-6">
+          <p className="text-center font-display text-[21.6px] font-semibold text-primary md:text-[28px]">고객 후기</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <TestimonialCarousel items={testimonials} />
+      </section>
+
+      <section className="flex min-h-[1000px] flex-col justify-center bg-primary py-14 md:py-20">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-14 px-4 md:grid-cols-[1fr_auto] md:px-6">
+          <div className="text-white">
+            <h2 className="font-display text-[32px] font-bold leading-snug md:text-[46px]">
+              청소청년을 다시 찾아주시는 이유,
+              <br />
+              고객님들의 진심이 담긴 후기 덕분입니다!
+            </h2>
+            <p className="mt-6 max-w-lg text-[18px] leading-relaxed text-white/85 md:text-[22px]">
+              소중한 고객 후기 덕분에 더욱 정직하고 책임감 있는 서비스를 제공해 드릴 수 있었습니다.
+              <br className="hidden md:block" />
+              항상 감사한 마음과 초심을 잃지 않고, 더 높은 깨끗함과 더 나은 서비스로 보답하겠습니다.
+            </p>
+          </div>
+          <Image
+            src="/images/mascot-thumbsup.png"
+            alt=""
+            width={680}
+            height={680}
+            className="h-[340px] w-auto justify-self-center object-contain md:h-[560px]"
+          />
         </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 }

@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+prisma/dev.db
+
+# local file uploads (production uses Vercel Blob)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# raw source asset inbox (not used at runtime)
+/새에셋

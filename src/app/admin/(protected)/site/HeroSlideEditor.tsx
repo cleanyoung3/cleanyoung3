@@ -1,0 +1,88 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { updateHeroSlide } from "./actions";
+
+const PRESETS = [
+  { value: "custom", label: "직접입력" },
+  { value: "aircon", label: "에어컨 분해 청소" },
+  { value: "sofa_mattress", label: "소파・매트리스 케어" },
+  { value: "movein", label: "입주・이사 청소" },
+];
+
+export function HeroSlideEditor({
+  index,
+  id,
+  presetKey,
+  headline,
+  subCopy,
+  bodyText,
+  imageUrl,
+}: {
+  index: number;
+  id: string;
+  presetKey: string | null;
+  headline: string;
+  subCopy: string;
+  bodyText: string;
+  imageUrl: string | null;
+}) {
+  const [open, setOpen] = useState(index === 0);
+  const [saved, setSaved] = useState(false);
+  const boundUpdate = updateHeroSlide.bind(null, id);
+
+  return (
+    <div className="rounded-xl border border-black/5 bg-white">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center justify-between px-4 py-3.5 text-sm font-bold text-ink"
+      >
+        메인 페이지 상단 {index + 1}
+        <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <form
+          action={async (fd) => {
+            await boundUpdate(fd);
+            setSaved(true);
+            setTimeout(() => setSaved(false), 1800);
+          }}
+          className="space-y-3 border-t border-black/5 px-4 py-4"
+        >
+          <div>
+            <p className="mb-1 text-xs font-semibold text-ink-soft">문구 및 이미지 프리셋</p>
+            <select name="presetKey" defaultValue={presetKey ?? "custom"} className="input">
+              {PRESETS.map((p) => (
+                <option key={p.value} value={p.value}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <p className="mb-1 text-xs font-semibold text-ink-soft">헤드라인</p>
+            <input name="headline" defaultValue={headline} className="input" />
+          </div>
+          <div>
+            <p className="mb-1 text-xs font-semibold text-ink-soft">서브카피</p>
+            <input name="subCopy" defaultValue={subCopy} className="input" />
+          </div>
+          <div>
+            <p className="mb-1 text-xs font-semibold text-ink-soft">본문내용</p>
+            <textarea name="bodyText" defaultValue={bodyText} rows={3} className="input resize-none" />
+          </div>
+          <div>
+            <p className="mb-1 text-xs font-semibold text-ink-soft">이미지 URL (직접입력 시, 비워두면 기본 이미지)</p>
+            <input name="imageUrl" defaultValue={imageUrl ?? ""} placeholder="/images/..." className="input" />
+          </div>
+          <button type="submit" className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-white">
+            저장
+          </button>
+          {saved && <span className="ml-3 text-xs text-secondary-dark">저장되었습니다.</span>}
+        </form>
+      )}
+    </div>
+  );
+}
