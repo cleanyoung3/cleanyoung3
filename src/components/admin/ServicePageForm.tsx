@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { uploadFile } from "@/lib/upload-client";
 
 type ProcessStep = { title: string; desc: string; image: string };
 
@@ -28,23 +29,13 @@ export function ServicePageForm({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
-  async function uploadFile(file: File): Promise<string> {
-    const fd = new FormData();
-    fd.append("file", file);
-    fd.append("folder", "services");
-    const res = await fetch("/api/uploads", { method: "POST", body: fd });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "업로드에 실패했습니다.");
-    return data.url as string;
-  }
-
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
     setError("");
     try {
-      setHeroImage(await uploadFile(file));
+      setHeroImage(await uploadFile(file, "services"));
     } catch (err) {
       setError(err instanceof Error ? err.message : "업로드에 실패했습니다.");
     } finally {
@@ -58,7 +49,7 @@ export function ServicePageForm({
     setUploading(true);
     setError("");
     try {
-      const url = await uploadFile(file);
+      const url = await uploadFile(file, "services");
       setStepImages((prev) => prev.map((v, idx) => (idx === i ? url : v)));
     } catch (err) {
       setError(err instanceof Error ? err.message : "업로드에 실패했습니다.");

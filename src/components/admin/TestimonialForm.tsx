@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { uploadFile } from "@/lib/upload-client";
 
 export function TestimonialForm({
   action,
@@ -27,12 +28,7 @@ export function TestimonialForm({
     setUploading(true);
     setError("");
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/uploads", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "업로드에 실패했습니다.");
-      setPhotoUrl(data.url);
+      setPhotoUrl(await uploadFile(file, "testimonials"));
     } catch (err) {
       setError(err instanceof Error ? err.message : "업로드에 실패했습니다.");
     } finally {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { uploadFile } from "@/lib/upload-client";
 
 export function BannerForm({
   action,
@@ -30,13 +31,8 @@ export function BannerForm({
     setUploading(true);
     setError("");
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("folder", "banners");
-      const res = await fetch("/api/uploads", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "업로드에 실패했습니다.");
-      setMediaUrl(data.url);
+      const url = await uploadFile(file, "banners");
+      setMediaUrl(url);
       setMediaType(isVideo ? "video" : "image");
     } catch (err) {
       setError(err instanceof Error ? err.message : "업로드에 실패했습니다.");
