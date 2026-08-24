@@ -75,7 +75,7 @@ export default async function ServicePage({
               alt={service.headline}
               width={520}
               height={460}
-              className="h-56 w-auto justify-self-center object-contain md:h-72"
+              className="h-[291px] w-auto justify-self-center object-contain md:h-[374px]"
               priority
             />
           </div>
