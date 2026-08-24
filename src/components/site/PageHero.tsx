@@ -1,5 +1,12 @@
 import Image from "next/image";
 
+function getYouTubeId(url: string): string | null {
+  const match = url.match(
+    /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+  );
+  return match ? match[1] : null;
+}
+
 export function PageHero({
   eyebrow,
   lead,
@@ -14,13 +21,22 @@ export function PageHero({
   mediaUrl?: string | null;
 }) {
   const hasMedia = !!mediaUrl && (mediaType === "image" || mediaType === "video");
+  const youTubeId = mediaType === "video" && mediaUrl ? getYouTubeId(mediaUrl) : null;
 
   return (
     <section className="relative isolate flex min-h-[500px] flex-col justify-center overflow-hidden bg-gradient-to-br from-[#5b6f8c] via-[#7688a3] to-[#a9b7c9]">
       {hasMedia && mediaType === "image" && (
         <Image src={mediaUrl!} alt="" fill priority className="object-cover" sizes="100vw" />
       )}
-      {hasMedia && mediaType === "video" && (
+      {hasMedia && mediaType === "video" && youTubeId && (
+        <iframe
+          src={`https://www.youtube.com/embed/${youTubeId}?autoplay=1&mute=1&loop=1&playlist=${youTubeId}&controls=0&modestbranding=1&playsinline=1&rel=0`}
+          title=""
+          allow="autoplay; encrypted-media"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2"
+        />
+      )}
+      {hasMedia && mediaType === "video" && !youTubeId && (
         <video
           src={mediaUrl!}
           autoPlay
