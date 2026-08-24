@@ -11,7 +11,10 @@ export const metadata: Metadata = {
     "에어컨 분해 청소, 소파・매트리스 케어, 입주・이사 청소까지. 청춘을 담아 청결하게, 정직을 담아 성실하게. 청소청년 직영팀이 처음부터 끝까지 책임지고 시공합니다.",
   verification: {
     other: {
-      "naver-site-verification": "e296e185bad249dd2c63cf1dae71e31bb4d3ef4a",
+      "naver-site-verification": [
+        "e296e185bad249dd2c63cf1dae71e31bb4d3ef4a",
+        "451e310a1e6d917d23447fcd42e53a549c866114",
+      ],
     },
   },
 };
