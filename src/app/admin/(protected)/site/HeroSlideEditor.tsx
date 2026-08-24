@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { updateHeroSlide } from "./actions";
+import { updateHeroSlide, deleteHeroSlide } from "./actions";
 import { uploadFile } from "@/lib/upload-client";
 
 const PRESETS = [
@@ -34,8 +34,15 @@ export function HeroSlideEditor({
   const [saved, setSaved] = useState(false);
   const [imageUrl, setImageUrl] = useState(imageUrlProp ?? "");
   const [uploading, setUploading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
   const boundUpdate = updateHeroSlide.bind(null, id);
+
+  async function handleDelete() {
+    if (!confirm("이 슬라이드를 삭제할까요?")) return;
+    setDeleting(true);
+    await deleteHeroSlide(id);
+  }
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -116,10 +123,20 @@ export function HeroSlideEditor({
             {uploading && <p className="mt-1 text-xs text-ink-soft">업로드 중...</p>}
             {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
           </div>
-          <button type="submit" className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-white">
-            저장
-          </button>
-          {saved && <span className="ml-3 text-xs text-secondary-dark">저장되었습니다.</span>}
+          <div className="flex items-center gap-2">
+            <button type="submit" className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-white">
+              저장
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="rounded-lg border border-red-200 px-4 py-2 text-xs font-semibold text-red-500 hover:bg-red-50 disabled:opacity-60"
+            >
+              {deleting ? "삭제 중..." : "슬라이드 삭제"}
+            </button>
+            {saved && <span className="text-xs text-secondary-dark">저장되었습니다.</span>}
+          </div>
         </form>
       )}
     </div>

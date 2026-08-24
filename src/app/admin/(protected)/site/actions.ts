@@ -22,6 +22,31 @@ export async function updateHeroSlide(id: string, formData: FormData) {
   revalidatePath("/");
 }
 
+export async function createHeroSlide() {
+  await requireSitePermission();
+  const count = await prisma.heroSlide.count();
+  await prisma.heroSlide.create({
+    data: {
+      order: count,
+      presetKey: null,
+      headline: "새 슬라이드",
+      subCopy: "",
+      bodyText: "",
+      imageUrl: null,
+      statKey: null,
+    },
+  });
+  revalidatePath("/admin/site");
+  revalidatePath("/");
+}
+
+export async function deleteHeroSlide(id: string) {
+  await requireSitePermission();
+  await prisma.heroSlide.delete({ where: { id } });
+  revalidatePath("/admin/site");
+  revalidatePath("/");
+}
+
 export async function updateStat(key: string, formData: FormData) {
   await requireSitePermission();
   const value = Number(formData.get("value"));

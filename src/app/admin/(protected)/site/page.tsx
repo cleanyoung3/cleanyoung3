@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { HeroSlideEditor } from "./HeroSlideEditor";
 import { StatEditor } from "./StatEditor";
 import { SettingsForm } from "./SettingsForm";
+import { createHeroSlide } from "./actions";
 
 export default async function AdminSitePage() {
   await requireSitePermission();
@@ -21,7 +22,17 @@ export default async function AdminSitePage() {
       </div>
 
       <section>
-        <h2 className="mb-3 font-display text-base font-bold text-primary">① 메인 페이지 상단 슬라이드</h2>
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="font-display text-base font-bold text-primary">① 메인 페이지 상단 슬라이드</h2>
+          <form action={createHeroSlide}>
+            <button
+              type="submit"
+              className="rounded-lg bg-secondary px-3 py-1.5 text-xs font-semibold text-white hover:bg-secondary-dark"
+            >
+              + 슬라이드 추가
+            </button>
+          </form>
+        </div>
         <div className="space-y-3">
           {slides.map((slide, i) => (
             <HeroSlideEditor
