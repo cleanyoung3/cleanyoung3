@@ -6,9 +6,11 @@ import { ChevronDown } from "lucide-react";
 export function ExpandableRow({
   summary,
   children,
+  colSpan = 6,
 }: {
   summary: React.ReactNode;
   children: React.ReactNode;
+  colSpan?: number;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -24,7 +26,7 @@ export function ExpandableRow({
       </tr>
       {open && (
         <tr className="border-b border-black/5 bg-slate-50">
-          <td colSpan={6} className="px-5 py-4 text-sm text-ink-soft">
+          <td colSpan={colSpan} className="px-5 py-4 text-sm text-ink-soft">
             {children}
           </td>
         </tr>

@@ -52,7 +52,7 @@ model PartnershipRequest {
   email       String
   serviceType String
   message     String
-  status      String   @default("접수")
+  status      String   @default("신규접수")
   createdAt   DateTime @default(now())
 }
 
@@ -66,7 +66,7 @@ model QuoteRequest {
   preferredDate String
   name          String
   phone         String
-  status        String   @default("접수")
+  status        String   @default("신규접수")
   createdAt     DateTime @default(now())
 }
 
