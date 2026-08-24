@@ -120,7 +120,7 @@ export function HeroCarousel({
               <p>바로가기</p>
               <span className="mt-1 inline-block text-secondary">➜</span>
             </div>
-            <div className="grid flex-1 grid-cols-4 gap-3 text-center">
+            <div className="grid flex-1 grid-cols-2 gap-3 text-center sm:grid-cols-4">
               {SERVICE_ICONS.map((s) => (
                 <Link
                   key={s.label}
