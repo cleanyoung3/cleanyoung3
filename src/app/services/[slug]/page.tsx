@@ -21,7 +21,21 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const service = await getServicePageBySlug(slug);
-  return { title: service ? `${service.headline} | 청소청년` : "청소청년" };
+  if (!service) return { title: "청소청년" };
+
+  const title = `${service.headline} | 청소청년`;
+  const description = `${service.subCopy} ${service.bodyText}`.slice(0, 160);
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://cleanyoung.com/services/${service.slug}`,
+      images: [{ url: service.heroImage }],
+    },
+  };
 }
 
 export default async function ServicePage({

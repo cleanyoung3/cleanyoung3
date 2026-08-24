@@ -3,7 +3,10 @@ import { FaqAccordion } from "@/components/support/FaqAccordion";
 import { prisma } from "@/lib/prisma";
 import { getSiteSettings, getPageBanner } from "@/lib/site-data";
 
-export const metadata = { title: "고객센터 | 청소청년" };
+export const metadata = {
+  title: "고객센터 | 청소청년",
+  description: "청소청년 고객센터입니다. 에어컨 분해 청소, 소파・매트리스 케어, 입주・이사 청소 관련 자주 묻는 질문과 상담 안내를 확인하세요.",
+};
 export const dynamic = "force-dynamic";
 
 export default async function SupportPage() {

@@ -3,7 +3,10 @@ import { PartnershipForm } from "@/components/partnership/PartnershipForm";
 import { getPageBanner } from "@/lib/site-data";
 import { getYouTubeId } from "@/lib/youtube";
 
-export const metadata = { title: "업무제휴 | 청소청년" };
+export const metadata = {
+  title: "업무제휴 | 청소청년",
+  description: "청소청년과 함께할 비즈니스 파트너를 찾습니다. 에어컨 청소, 입주・이사 청소 관련 업무제휴 문의를 남겨주세요.",
+};
 export const dynamic = "force-dynamic";
 
 export default async function PartnershipPage() {

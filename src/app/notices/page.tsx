@@ -3,7 +3,10 @@ import { PageHero } from "@/components/site/PageHero";
 import { prisma } from "@/lib/prisma";
 import { getPageBanner } from "@/lib/site-data";
 
-export const metadata = { title: "공지사항 | 청소청년" };
+export const metadata = {
+  title: "공지사항 | 청소청년",
+  description: "청소청년의 최신 소식과 공지사항을 확인하세요. 에어컨 청소, 입주・이사 청소 서비스 관련 안내를 안내드립니다.",
+};
 export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 15;

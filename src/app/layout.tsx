@@ -5,10 +5,32 @@ import { Footer } from "@/components/site/Footer";
 import { FloatingSocial } from "@/components/site/FloatingSocial";
 import { getSiteSettings } from "@/lib/site-data";
 
+const SITE_DESCRIPTION =
+  "에어컨 분해 청소, 소파・매트리스 케어, 입주・이사 청소까지. 청춘을 담아 청결하게, 정직을 담아 성실하게. 청소청년 직영팀이 처음부터 끝까지 책임지고 시공합니다.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cleanyoung.com"),
   title: "청소청년 | 토탈 클린케어 서비스",
-  description:
-    "에어컨 분해 청소, 소파・매트리스 케어, 입주・이사 청소까지. 청춘을 담아 청결하게, 정직을 담아 성실하게. 청소청년 직영팀이 처음부터 끝까지 책임지고 시공합니다.",
+  description: SITE_DESCRIPTION,
+  keywords: [
+    "에어컨 청소",
+    "에어컨 분해 청소",
+    "소파 클린케어",
+    "매트리스 케어",
+    "입주 청소",
+    "이사 청소",
+    "청소업체",
+    "청소청년",
+  ],
+  openGraph: {
+    title: "청소청년 | 토탈 클린케어 서비스",
+    description: SITE_DESCRIPTION,
+    url: "https://cleanyoung.com",
+    siteName: "청소청년",
+    locale: "ko_KR",
+    type: "website",
+    images: [{ url: "/images/photo-cleaning-trio.png", width: 2752, height: 1536 }],
+  },
   verification: {
     other: {
       "naver-site-verification": [

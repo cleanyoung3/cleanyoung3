@@ -2,7 +2,10 @@ import Image from "next/image";
 import { PageHero } from "@/components/site/PageHero";
 import { getPageBanner } from "@/lib/site-data";
 
-export const metadata = { title: "청년 스토리 | 청소청년" };
+export const metadata = {
+  title: "청년 스토리 | 청소청년",
+  description: "청소에 청춘을 건 청년들의 진심과 열정. 청소청년 매니저들이 직접 책임지는 에어컨 청소, 입주・이사 청소 서비스 철학을 소개합니다.",
+};
 export const dynamic = "force-dynamic";
 
 const PHILOSOPHY = [
