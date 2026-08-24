@@ -53,8 +53,7 @@ export default async function ServicePage({
 
       <section className="flex min-h-[700px] flex-col justify-center bg-white">
         <div className="mx-auto w-full max-w-6xl px-4 py-14 md:px-6 md:py-20">
-          <p className="text-[16.8px] font-semibold text-ink-soft">주요 서비스</p>
-          <div className="mt-4 grid items-center gap-8 md:grid-cols-2">
+          <div className="grid items-center gap-8 md:grid-cols-2">
             <div>
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-secondary text-[14.4px] font-bold text-white">
                 {service.badge}
