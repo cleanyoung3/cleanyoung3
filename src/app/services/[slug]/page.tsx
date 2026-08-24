@@ -8,6 +8,8 @@ import { SERVICES } from "@/lib/services";
 import { getServicePageBySlug } from "@/lib/service-data";
 import { getSiteStats, getPageBanner } from "@/lib/site-data";
 
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
 }

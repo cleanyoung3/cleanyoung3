@@ -5,6 +5,8 @@ import { TestimonialCarousel } from "@/components/home/TestimonialCarousel";
 import { getHeroSlides, getSiteSettings, getSiteStats } from "@/lib/site-data";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const [slides, stats, settings, testimonials] = await Promise.all([
     getHeroSlides(),

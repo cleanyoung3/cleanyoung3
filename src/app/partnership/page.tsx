@@ -1,12 +1,15 @@
 import Image from "next/image";
 import { PartnershipForm } from "@/components/partnership/PartnershipForm";
 import { getPageBanner } from "@/lib/site-data";
+import { getYouTubeId } from "@/lib/youtube";
 
 export const metadata = { title: "업무제휴 | 청소청년" };
+export const dynamic = "force-dynamic";
 
 export default async function PartnershipPage() {
   const banner = await getPageBanner("partnership");
   const hasMedia = !!banner?.mediaUrl && (banner.mediaType === "image" || banner.mediaType === "video");
+  const youTubeId = banner?.mediaType === "video" && banner.mediaUrl ? getYouTubeId(banner.mediaUrl) : null;
   const [titleLine1, titleLine2] = banner?.title ?? ["다양한 비즈니스에 대한", "생각이 열려있습니다."];
 
   return (
@@ -15,7 +18,15 @@ export default async function PartnershipPage() {
         {hasMedia && banner!.mediaType === "image" && (
           <Image src={banner!.mediaUrl!} alt="" fill priority className="object-cover" sizes="100vw" />
         )}
-        {hasMedia && banner!.mediaType === "video" && (
+        {hasMedia && banner!.mediaType === "video" && youTubeId && (
+          <iframe
+            src={`https://www.youtube.com/embed/${youTubeId}?autoplay=1&mute=1&loop=1&playlist=${youTubeId}&controls=0&modestbranding=1&playsinline=1&rel=0`}
+            title=""
+            allow="autoplay; encrypted-media"
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2"
+          />
+        )}
+        {hasMedia && banner!.mediaType === "video" && !youTubeId && (
           <video
             src={banner!.mediaUrl!}
             autoPlay

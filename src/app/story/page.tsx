@@ -3,6 +3,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { getPageBanner } from "@/lib/site-data";
 
 export const metadata = { title: "청년 스토리 | 청소청년" };
+export const dynamic = "force-dynamic";
 
 const PHILOSOPHY = [
   {

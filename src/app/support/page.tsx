@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getSiteSettings, getPageBanner } from "@/lib/site-data";
 
 export const metadata = { title: "고객센터 | 청소청년" };
+export const dynamic = "force-dynamic";
 
 export default async function SupportPage() {
   const [faqs, settings, banner] = await Promise.all([

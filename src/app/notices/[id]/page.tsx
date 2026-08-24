@@ -5,6 +5,8 @@ import { PageHero } from "@/components/site/PageHero";
 import { prisma } from "@/lib/prisma";
 import { getPageBanner } from "@/lib/site-data";
 
+export const dynamic = "force-dynamic";
+
 function formatDate(d: Date) {
   return d.toISOString().slice(0, 10);
 }

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getPageBanner } from "@/lib/site-data";
 
 export const metadata = { title: "공지사항 | 청소청년" };
+export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 15;
 
