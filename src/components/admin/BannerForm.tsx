@@ -95,11 +95,15 @@ export function BannerForm({
         {mediaType !== "none" && (
           <div>
             <p className="mb-1.5 text-xs font-semibold text-ink-soft">
-              배경 {mediaType === "video" ? "동영상" : "이미지"} 업로드
+              배경 {mediaType === "video" ? "동영상" : "이미지"} URL 직접입력 또는 파일 업로드
             </p>
-            {mediaUrl && (
-              <p className="mb-2 truncate text-xs text-secondary-dark">현재 파일: {mediaUrl}</p>
-            )}
+            <input
+              type="text"
+              value={mediaUrl}
+              onChange={(e) => setMediaUrl(e.target.value)}
+              placeholder="https://... 또는 /images/..."
+              className="input mb-2"
+            />
             <input
               type="file"
               accept={mediaType === "video" ? "video/*" : "image/*"}

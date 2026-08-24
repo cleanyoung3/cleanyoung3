@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 import { updateHeroSlide } from "./actions";
+import { uploadFile } from "@/lib/upload-client";
 
 const PRESETS = [
   { value: "custom", label: "직접입력" },
@@ -18,7 +20,7 @@ export function HeroSlideEditor({
   headline,
   subCopy,
   bodyText,
-  imageUrl,
+  imageUrl: imageUrlProp,
 }: {
   index: number;
   id: string;
@@ -30,7 +32,24 @@ export function HeroSlideEditor({
 }) {
   const [open, setOpen] = useState(index === 0);
   const [saved, setSaved] = useState(false);
+  const [imageUrl, setImageUrl] = useState(imageUrlProp ?? "");
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
   const boundUpdate = updateHeroSlide.bind(null, id);
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setError("");
+    try {
+      setImageUrl(await uploadFile(file, "hero"));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "업로드에 실패했습니다.");
+    } finally {
+      setUploading(false);
+    }
+  }
 
   return (
     <div className="rounded-xl border border-black/5 bg-white">
@@ -74,8 +93,28 @@ export function HeroSlideEditor({
             <textarea name="bodyText" defaultValue={bodyText} rows={3} className="input resize-none" />
           </div>
           <div>
-            <p className="mb-1 text-xs font-semibold text-ink-soft">이미지 URL (직접입력 시, 비워두면 기본 이미지)</p>
-            <input name="imageUrl" defaultValue={imageUrl ?? ""} placeholder="/images/..." className="input" />
+            <p className="mb-1 text-xs font-semibold text-ink-soft">
+              이미지 (URL 직접입력 또는 파일 업로드, 비워두면 기본 이미지)
+            </p>
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                alt=""
+                width={160}
+                height={100}
+                className="mb-2 h-20 w-auto rounded-lg border border-black/5 object-contain"
+              />
+            )}
+            <input
+              name="imageUrl"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="/images/... 또는 https://..."
+              className="input"
+            />
+            <input type="file" accept="image/*" onChange={handleFileChange} className="input mt-2" />
+            {uploading && <p className="mt-1 text-xs text-ink-soft">업로드 중...</p>}
+            {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
           </div>
           <button type="submit" className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-white">
             저장

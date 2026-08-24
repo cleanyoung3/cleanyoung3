@@ -9,7 +9,7 @@ const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 const MAX_VIDEO_SIZE = 40 * 1024 * 1024;
 const IMAGE_EXT = new Set(["jpg", "jpeg", "png", "webp", "gif"]);
 const VIDEO_EXT = new Set(["mp4", "webm", "mov"]);
-const ALLOWED_FOLDERS = new Set(["testimonials", "banners", "services"]);
+const ALLOWED_FOLDERS = new Set(["testimonials", "banners", "services", "hero"]);
 
 export async function POST(request: Request) {
   const contentType = request.headers.get("content-type") || "";
