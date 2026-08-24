@@ -48,9 +48,31 @@ export default async function RootLayout({
 }) {
   const settings = await getSiteSettings();
 
+  const sameAs = [settings.instagramUrl, settings.threadsUrl, settings.bandUrl, settings.kakaoUrl].filter(
+    (url) => url && url !== "#"
+  );
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "청소청년",
+    alternateName: "Cheongso Cheongnyeon",
+    url: "https://cleanyoung.com",
+    logo: "https://cleanyoung.com/images/logo-header.png",
+    image: "https://cleanyoung.com/images/photo-cleaning-trio.png",
+    description: SITE_DESCRIPTION,
+    telephone: settings.phone,
+    ...(settings.address ? { address: { "@type": "PostalAddress", streetAddress: settings.address, addressCountry: "KR" } } : {}),
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  };
+
   return (
     <html lang="ko" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Header />
         <FloatingSocial
           phone={settings.phone}
